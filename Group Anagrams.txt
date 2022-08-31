@@ -1,0 +1,81 @@
+package test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+Given an array of strings strs, group the anagrams together. You can return the answer in any order.
+
+An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+ 
+
+Example 1:
+
+Input: strs = ["eat","tea","tan","ate","nat","bat"]
+Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
+Example 2:
+
+Input: strs = [""]
+Output: [[""]]
+Example 3:
+
+Input: strs = ["a"]
+Output: [["a"]]
+ 
+
+Constraints:
+
+1 <= strs.length <= 104
+0 <= strs[i].length <= 100
+strs[i] consists of lowercase English letters.
+
+
+
+import java.util.List;
+
+class test {
+
+	public static void main(String[] args) {
+
+		String[] strs = new String[] { "eat", "tea", "tan", "ate", "nat", "bat" };
+		System.out.println(groupAnagrams(strs));
+
+	}
+
+	public static List<List<String>> groupAnagrams(String[] strs) {
+
+		HashMap<HashMap<Character, Integer>, List<String>> strsHash = new HashMap();
+
+		for (String str : strs) {
+			HashMap<Character, Integer> strHash = new HashMap();
+			for (int i = 0; i < str.length(); i++) {
+
+				int num = 1;
+				if (strHash.containsKey(str.charAt(i))) {
+					num = strHash.get(str.charAt(i));
+					strHash.put(str.charAt(i), num += 1);
+				} else {
+					strHash.put(str.charAt(i), num);
+				}
+
+			}
+			if (strsHash.containsKey(strHash)) {
+				List<String> arr = strsHash.get(strHash);
+				arr.add(str);
+				strsHash.put(strHash, arr);
+			} else {
+				List<String> arr = new ArrayList();
+				arr.add(str);
+				strsHash.put(strHash, arr);
+			}
+
+		}
+		List<List<String>> group = new ArrayList();
+		for (List<String> strs1 : strsHash.values()) {
+			group.add(strs1);
+		}
+
+		return group;
+	}
+
+}
